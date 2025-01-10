@@ -22,6 +22,8 @@ export class Validator {
       Validator.isDate(query.startDate) &&
       Validator.isDate(query.endDate) &&
       Validator.isEndDateAfterStart(query.startDate, query.endDate) &&
+      Validator.isDateInPast(query.startDate) &&
+      Validator.isDateInPast(query.endDate) &&
       validCompanySymbols.includes(query.companySymbol)
     )
   }
@@ -38,5 +40,9 @@ export class Validator {
   // todo this is probably worst naming ever :D
   private static isEndDateAfterStart(startData: string, endData: string): boolean {
     return new Date(endData) >= new Date(startData)
+  }
+
+  private static isDateInPast(date: string): boolean {
+    return new Date(date) <= new Date
   }
 }

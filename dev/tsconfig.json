@@ -1,0 +1,30 @@
+{
+  "extends": "../tsconfig.json",
+  "exclude": [],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "../src/**/*.ts",
+    "../src/**/*.tsx",
+    "next.config.mjs",
+    ".next/types/**/*.ts"
+  ],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@payload-config": [
+        "./payload.config.ts"
+      ],
+      "xm-challenge": [
+        "../src/index.ts"
+      ],
+      "xm-challenge/client": [
+        "../src/exports/client.ts"
+      ],
+      "xm-challenge/rsc": [
+        "../src/exports/rsc.ts"
+      ]
+    },
+    "noEmit": true
+  }
+}

@@ -1,26 +1,88 @@
 import type { CollectionSlug, Config } from 'payload'
 
-export type XmChallengeConfig = {
-  /**
-   * List of collections to add a custom field
-   */
+export type HistoricalDataProviderConfig = {
   collections?: Partial<Record<CollectionSlug, true>>
   disabled?: boolean
 }
 
-export const xmChallenge =
-  (pluginOptions: XmChallengeConfig) =>
+// https://yh-finance.p.rapidapi.com/stock/v3/get-chart?interval=1mo&symbol=AMRN&range=5y&region=US&includePrePost=false&useYfid=true&includeAdjustedClose=true&events=capitalGain%2Cdiv%2Csplit
+
+export const historicalDataProvider =
+  (pluginOptions: HistoricalDataProviderConfig) =>
   (config: Config): Config => {
     if (!config.collections) {
       config.collections = []
     }
 
+    // will it been removed if plugin is disabled?
     config.collections.push({
-      slug: 'plugin-collection',
+      slug: 'historical-data-provider-symbols',
       fields: [
         {
-          name: 'id',
+          name: 'companyName',
           type: 'text',
+        },
+        {
+          name: 'financialStatus',
+          type: 'select',
+          options: [
+            {
+              label: 'D',
+              value: 'D',
+            },
+            {
+              label: 'K',
+              value: 'K',
+            },
+            {
+              label: 'N',
+              value: 'N',
+            },
+          ],
+        },
+        {
+          name: 'marketCategory',
+          type: 'select',
+          options: [
+            {
+              label: 'Q',
+              value: 'Q',
+            },
+            {
+              label: 'G',
+              value: 'G',
+            },
+            {
+              label: 'S',
+              value: 'S',
+            },
+          ],
+        },
+        {
+          name: 'RoundLotSize',
+          type: 'number',
+        },
+        {
+          name: 'SecurityName',
+          type: 'text',
+        },
+        {
+          name: 'Symbol',
+          type: 'text',
+        },
+        {
+          name: 'TestIssue',
+          type: 'select',
+          options: [
+            {
+              label: 'Y',
+              value: 'Y',
+            },
+            {
+              label: 'N',
+              value: 'N',
+            }
+          ],
         },
       ],
     })
@@ -55,6 +117,14 @@ export const xmChallenge =
       config.endpoints = []
     }
 
+    config.endpoints.push({
+      handler: () => {
+        return Response.json({ message: 'Hello from historicalData endpoint' })
+      },
+      method: 'get',
+      path: '/historicalData',
+    })
+
     if (!config.admin) {
       config.admin = {}
     }
@@ -67,20 +137,13 @@ export const xmChallenge =
       config.admin.components.beforeDashboard = []
     }
 
-    config.admin.components.beforeDashboard.push(
-      `xm-challenge/client#BeforeDashboardClient`,
-    )
-    config.admin.components.beforeDashboard.push(
-      `xm-challenge/rsc#BeforeDashboardServer`,
-    )
+    // config.admin.components.beforeDashboard.push(
+    //   `xm-challenge/client#BeforeDashboardClient`,
+    // )
+    // config.admin.components.beforeDashboard.push(
+    //   `xm-challenge/rsc#BeforeDashboardServer`,
+    // )
 
-    config.endpoints.push({
-      handler: () => {
-        return Response.json({ message: 'Hello from custom endpoint' })
-      },
-      method: 'get',
-      path: '/my-plugin-endpoint',
-    })
 
     const incomingOnInit = config.onInit
 

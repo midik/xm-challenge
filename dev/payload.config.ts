@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url'
 import { devUser } from './helpers/credentials.js'
 import { testEmailAdapter } from './helpers/testEmailAdapter.js'
 import { seed } from './seed.js'
+import { historicalDataProvider } from 'xm-challenge'
 
 
 const filename = fileURLToPath(import.meta.url)
@@ -50,11 +51,10 @@ export default buildConfig({
     await seed(payload)
   },
   plugins: [
-    // xmChallenge({
-    //   collections: {
-    //     posts: true,
-    //   },
-    // }),
+    historicalDataProvider({
+      // collection: 'posts',
+      // field: 'title',
+    })
   ],
   secret: process.env.PAYLOAD_SECRET || 'test-secret_key',
   sharp,

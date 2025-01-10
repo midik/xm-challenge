@@ -133,18 +133,6 @@ export const historicalDataProvider =
       config.admin.components = {}
     }
 
-    if (!config.admin.components.beforeDashboard) {
-      config.admin.components.beforeDashboard = []
-    }
-
-    // config.admin.components.beforeDashboard.push(
-    //   `xm-challenge/client#BeforeDashboardClient`,
-    // )
-    // config.admin.components.beforeDashboard.push(
-    //   `xm-challenge/rsc#BeforeDashboardServer`,
-    // )
-
-
     const incomingOnInit = config.onInit
 
     config.onInit = async (payload) => {
@@ -153,23 +141,7 @@ export const historicalDataProvider =
         await incomingOnInit(payload)
       }
 
-      const { totalDocs } = await payload.count({
-        collection: 'plugin-collection',
-        where: {
-          id: {
-            equals: 'seeded-by-plugin',
-          },
-        },
-      })
-
-      if (totalDocs === 0) {
-        await payload.create({
-          collection: 'plugin-collection',
-          data: {
-            id: 'seeded-by-plugin',
-          },
-        })
-      }
+      // extra onInit logic here
     }
 
     return config

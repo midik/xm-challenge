@@ -1,6 +1,8 @@
 import type { Config } from 'payload'
 import type { HistoricalDataProviderConfig } from './types.js'
-import { getHistoricalData } from './api/index.js'
+import { HistoricalDataApi } from './api/index.js'
+import { RapidApiDataProvider } from './helpers/RapidApiDataProvider.class.js'
+import { Validator } from './helpers/validator.class.js'
 
 
 export const historicalDataProvider =
@@ -14,15 +16,28 @@ export const historicalDataProvider =
       return config
     }
 
+    // we can choose provider type here based on some config etc
+    const provider = new RapidApiDataProvider({
+      key: pluginOptions.rapidAPIKey,
+      url: pluginOptions.rapidAPIUrl,
+    })
+
+    // ...same for a validator
+    const validator = new Validator()
+
+    // ... and inject them into the API
+    const api = new HistoricalDataApi(provider, validator)
+
     if (!config.endpoints) {
       config.endpoints = []
     }
 
     config.endpoints.push({
-      handler: getHistoricalData, // todo fix type error
+      handler: api.getHistoricalData.bind(api), // todo fix type error
       method: 'get',
       path: '/historicalData',
     })
+    // ...we can bind other endpoints here in the future
 
     return config
   }

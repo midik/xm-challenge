@@ -16,33 +16,33 @@ import validCompanySymbols from '../data/symbols.json' with { type: 'json' }
  * @class Validator
  */
 export class Validator {
-  public static isValid(query: getHistoricalDataQuery): boolean {
+  public isValid(query: getHistoricalDataQuery): boolean {
     return (
-      Validator.isEmail(query.email) &&
-      Validator.isDate(query.startDate) &&
-      Validator.isDate(query.endDate) &&
-      Validator.isEndDateAfterStart(query.startDate, query.endDate) &&
-      Validator.isDateInPast(query.startDate) &&
-      Validator.isDateInPast(query.endDate) &&
+      this.isEmail(query.email) &&
+      this.isDate(query.startDate) &&
+      this.isDate(query.endDate) &&
+      this.isEndDateAfterStart(query.startDate, query.endDate) &&
+      this.isDateInPast(query.startDate) &&
+      this.isDateInPast(query.endDate) &&
       validCompanySymbols.includes(query.companySymbol)
     )
   }
 
   // todo replace these rough regexps with a better validation
-  private static isEmail(email: string): boolean {
+  private isEmail(email: string): boolean {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
   }
 
-  private static isDate(date: string): boolean {
+  private isDate(date: string): boolean {
     return /^\d{4}-\d{2}-\d{2}$/.test(date)
   }
 
   // todo this is probably worst naming ever :D
-  private static isEndDateAfterStart(startData: string, endData: string): boolean {
+  private isEndDateAfterStart(startData: string, endData: string): boolean {
     return new Date(endData) >= new Date(startData)
   }
 
-  private static isDateInPast(date: string): boolean {
+  private isDateInPast(date: string): boolean {
     return new Date(date) <= new Date
   }
 }

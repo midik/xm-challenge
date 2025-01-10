@@ -52,8 +52,10 @@ export default buildConfig({
   },
   plugins: [
     historicalDataProvider({
-      // collection: 'posts',
-      // field: 'title',
+      // todo generalize this to support other data sources, e.g. inject a provider
+      rapidAPIUrl: process.env.RAPIDAPI_URL || '',
+      rapidAPIKey: process.env.RAPID_API_KEY || '',
+      disabled: false
     })
   ],
   secret: process.env.PAYLOAD_SECRET || 'test-secret_key',

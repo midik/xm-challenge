@@ -81,7 +81,7 @@
     "payload": "^3.11.0"
   },
   "engines": {
-    "node": "^18.20.2 || >=20.9.0"
+    "node": "^23.6.0"
   },
   "publishConfig": {
     "exports": {

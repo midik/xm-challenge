@@ -1,15 +1,19 @@
-import type { CollectionSlug, Config } from 'payload'
+import type { Config } from 'payload'
+import type { HistoricalDataProviderConfig } from './types.js'
+import { getHistoricalData } from './api/index.js'
 
-export type HistoricalDataProviderConfig = {
-  collections?: Partial<Record<CollectionSlug, true>>
-  disabled?: boolean
-}
-
-// https://yh-finance.p.rapidapi.com/stock/v3/get-chart?interval=1mo&symbol=AMRN&range=5y&region=US&includePrePost=false&useYfid=true&includeAdjustedClose=true&events=capitalGain%2Cdiv%2Csplit
 
 export const historicalDataProvider =
   (pluginOptions: HistoricalDataProviderConfig) =>
   (config: Config): Config => {
+    /**
+     * If the plugin is disabled, we still want to keep added collections/fields so the database schema is consistent which is important for migrations.
+     * If your plugin heavily modifies the database schema, you may want to remove this property.
+     */
+    if (pluginOptions.disabled) {
+      return config
+    }
+
     if (!config.collections) {
       config.collections = []
     }
@@ -81,46 +85,18 @@ export const historicalDataProvider =
             {
               label: 'N',
               value: 'N',
-            }
+            },
           ],
         },
       ],
     })
-
-    if (pluginOptions.collections) {
-      for (const collectionSlug in pluginOptions.collections) {
-        const collection = config.collections.find(
-          (collection) => collection.slug === collectionSlug,
-        )
-
-        if (collection) {
-          collection.fields.push({
-            name: 'addedByPlugin',
-            type: 'text',
-            admin: {
-              position: 'sidebar',
-            },
-          })
-        }
-      }
-    }
-
-    /**
-     * If the plugin is disabled, we still want to keep added collections/fields so the database schema is consistent which is important for migrations.
-     * If your plugin heavily modifies the database schema, you may want to remove this property.
-     */
-    if (pluginOptions.disabled) {
-      return config
-    }
 
     if (!config.endpoints) {
       config.endpoints = []
     }
 
     config.endpoints.push({
-      handler: () => {
-        return Response.json({ message: 'Hello from historicalData endpoint' })
-      },
+      handler: getHistoricalData, // todo fix type error
       method: 'get',
       path: '/historicalData',
     })

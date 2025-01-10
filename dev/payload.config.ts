@@ -1,14 +1,14 @@
-import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { postgresAdapter } from '@payloadcms/db-postgres'
 import path from 'path'
 import { buildConfig } from 'payload'
-import { xmChallenge } from 'xm-challenge'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
 import { devUser } from './helpers/credentials.js'
 import { testEmailAdapter } from './helpers/testEmailAdapter.js'
 import { seed } from './seed.js'
+
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -38,8 +38,11 @@ export default buildConfig({
       },
     },
   ],
-  db: mongooseAdapter({
-    url: process.env.DATABASE_URI || '',
+  db: postgresAdapter({
+    pool: {
+      connectionString: process.env.DATABASE_URI || '',
+    },
+
   }),
   editor: lexicalEditor(),
   email: testEmailAdapter,

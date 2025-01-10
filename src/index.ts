@@ -14,83 +14,6 @@ export const historicalDataProvider =
       return config
     }
 
-    if (!config.collections) {
-      config.collections = []
-    }
-
-    // will it been removed if plugin is disabled?
-    config.collections.push({
-      slug: 'historical-data-provider-symbols',
-      fields: [
-        {
-          name: 'companyName',
-          type: 'text',
-        },
-        {
-          name: 'financialStatus',
-          type: 'select',
-          options: [
-            {
-              label: 'D',
-              value: 'D',
-            },
-            {
-              label: 'K',
-              value: 'K',
-            },
-            {
-              label: 'N',
-              value: 'N',
-            },
-          ],
-        },
-        {
-          name: 'marketCategory',
-          type: 'select',
-          options: [
-            {
-              label: 'Q',
-              value: 'Q',
-            },
-            {
-              label: 'G',
-              value: 'G',
-            },
-            {
-              label: 'S',
-              value: 'S',
-            },
-          ],
-        },
-        {
-          name: 'RoundLotSize',
-          type: 'number',
-        },
-        {
-          name: 'SecurityName',
-          type: 'text',
-        },
-        {
-          name: 'Symbol',
-          type: 'text',
-        },
-        {
-          name: 'TestIssue',
-          type: 'select',
-          options: [
-            {
-              label: 'Y',
-              value: 'Y',
-            },
-            {
-              label: 'N',
-              value: 'N',
-            },
-          ],
-        },
-      ],
-    })
-
     if (!config.endpoints) {
       config.endpoints = []
     }
@@ -100,25 +23,6 @@ export const historicalDataProvider =
       method: 'get',
       path: '/historicalData',
     })
-
-    if (!config.admin) {
-      config.admin = {}
-    }
-
-    if (!config.admin.components) {
-      config.admin.components = {}
-    }
-
-    const incomingOnInit = config.onInit
-
-    config.onInit = async (payload) => {
-      // Ensure we are executing any existing onInit functions before running our own.
-      if (incomingOnInit) {
-        await incomingOnInit(payload)
-      }
-
-      // extra onInit logic here
-    }
 
     return config
   }

@@ -50,11 +50,11 @@ export default buildConfig({
     await seed(payload)
   },
   plugins: [
-    xmChallenge({
-      collections: {
-        posts: true,
-      },
-    }),
+    // xmChallenge({
+    //   collections: {
+    //     posts: true,
+    //   },
+    // }),
   ],
   secret: process.env.PAYLOAD_SECRET || 'test-secret_key',
   sharp,

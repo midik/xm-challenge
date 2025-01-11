@@ -7,6 +7,8 @@ export type HistoricalRecord = {
   volume: number;
 }
 
+export class HistoricalRecordAdapterError extends Error {}
+
 export abstract class HistoricalDataAdapter {
   abstract normalize(data: any): HistoricalRecord[]
 }

@@ -1,7 +1,33 @@
 import fetch from 'node-fetch'
-import { HistoricalDataProvider, HistoricalDataProviderOptions } from './HistoricalDataProvider.class.js'
-import { RapidApiHistoricalData, SomeHistoricalDataAdapter } from '../adapters/SomeHistoricalDataAdapter.class.js'
+import {
+  HistoricalDataProvider,
+  HistoricalDataProviderError,
+  HistoricalDataProviderOptions,
+} from './HistoricalDataProvider.class.js'
+import { SomeHistoricalDataAdapter } from '../adapters/SomeHistoricalDataAdapter.class.js'
 import type { HistoricalRecord } from '../adapters/HistoricalDataAdapter.class.js'
+
+
+export type RapidApiHistoricalData = {
+  chart: {
+    error?: {
+      code: string
+      description: string
+    }
+    result: {
+      timestamp: number[]
+      indicators: {
+        quote: {
+          open: number[]
+          high: number[]
+          low: number[]
+          close: number[]
+          volume: number[]
+        }[]
+      }
+    }[]
+  }
+}
 
 
 export class RapidApiDataProvider extends HistoricalDataProvider {
@@ -22,7 +48,10 @@ export class RapidApiDataProvider extends HistoricalDataProvider {
         'x-rapidapi-key': this.options.key,
       },
     })
-    const json = await response.json()
+    const json = await response.json() as RapidApiHistoricalData
+    if (json.chart.error) {
+      throw new HistoricalDataProviderError(json.chart.error.description)
+    }
     return this.adapter.normalize(json as RapidApiHistoricalData)
   }
 

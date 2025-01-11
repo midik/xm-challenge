@@ -5,6 +5,8 @@ export type HistoricalDataProviderOptions = {
   key: string
 }
 
+export class HistoricalDataProviderError extends Error {}
+
 
 export abstract class HistoricalDataProvider {
   protected options: HistoricalDataProviderOptions

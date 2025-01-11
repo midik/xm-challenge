@@ -35,7 +35,9 @@ export const historicalDataProviderPlugin =
       config.endpoints = []
     }
 
+
     config.endpoints.push({
+      // @ts-ignore
       handler: api.getHistoricalData.bind(api), // todo fix type error
       method: 'get',
       path: '/historicalData',

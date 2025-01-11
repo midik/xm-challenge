@@ -59,32 +59,31 @@ describe('Plugin tests', () => {
     }
   })
 
-  it('should query added by plugin custom endpoint', async () => {
-    const response = await restClient.GET('/my-plugin-endpoint')
+  it('should get success response from the custom endpoint', async () => {
+    const query = 'companySymbol=AAPL&startDate=2024-11-01&endDate=2024-11-04&email=email@test.com';
+    const response = await restClient.GET(`/historicalData?${query}`)
     expect(response.status).toBe(200)
 
     const data = await response.json()
-    expect(data).toMatchObject({
-      message: 'Hello from custom endpoint',
+    expect(data[0]).toMatchObject({
+      date: expect.any(String),
+      open: expect.any(Number),
+      high: expect.any(Number),
+      low: expect.any(Number),
+      close: expect.any(Number),
+      volume: expect.any(Number),
     })
   })
 
-  it('can create post with a custom text field added by plugin', async () => {
-    const post = await payload.create({
-      collection: 'posts',
-      data: {
-        addedByPlugin: 'added by plugin',
-      },
+  it('should get bad request from the custom endpoint', async () => {
+    const query = 'bad-query';
+    const response = await restClient.GET(`/historicalData?${query}`)
+    expect(response.status).toBe(200)
+
+    const data = await response.json()
+    expect(data).toEqual({
+      message: "Bad request"
     })
-
-    expect(post.addedByPlugin).toBe('added by plugin')
   })
 
-  it('plugin creates and seeds plugin-collection', async () => {
-    expect(payload.collections['plugin-collection']).toBeDefined()
-
-    const { docs } = await payload.find({ collection: 'plugin-collection' })
-
-    expect(docs).toHaveLength(1)
-  })
 })

@@ -37,19 +37,17 @@ export class HistoricalDataApi {
     }
 
     const data = await this.dataProvider.fetchData(query.companySymbol, query.startDate, query.endDate)
-    const csvData = CsvAdapter.normalize(data)
 
-    // todo move this out to separate module
     await req.payload.sendEmail({
       to: query.email,
-      subject: 'Historical data for ' + query.companySymbol,
+      subject: `Historical data for ${data.companyName} (${data.companySymbol})`,
       text: `From ${query.startDate} to ${query.endDate}`,
       attachments: [{
         filename: 'report.csv',
-        content: Buffer.from(csvData, 'utf-8')
+        content: Buffer.from(CsvAdapter.normalize(data), 'utf-8')
       }]
     })
 
-    return Response.json(data)
+    return Response.json(data.records)
   }
 }

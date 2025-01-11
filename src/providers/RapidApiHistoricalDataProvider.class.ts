@@ -4,7 +4,7 @@ import {
   HistoricalDataProviderOptions,
 } from './HistoricalDataProvider.class.js'
 import { SomeHistoricalDataAdapter } from '../adapters/SomeHistoricalDataAdapter.class.js'
-import type { HistoricalRecord } from '../adapters/HistoricalDataAdapter.class.js'
+import type { HistoricalData } from '../adapters/HistoricalDataAdapter.class.js'
 
 
 export type RapidApiHistoricalData = {
@@ -14,6 +14,10 @@ export type RapidApiHistoricalData = {
       description: string
     }
     result: {
+      meta: {
+        symbol: string
+        shortName: string
+      }
       timestamp: number[]
       indicators: {
         quote: {
@@ -28,7 +32,6 @@ export type RapidApiHistoricalData = {
   }
 }
 
-
 export class RapidApiHistoricalDataProvider extends HistoricalDataProvider {
   adapter: SomeHistoricalDataAdapter
 
@@ -37,7 +40,11 @@ export class RapidApiHistoricalDataProvider extends HistoricalDataProvider {
     this.adapter = new SomeHistoricalDataAdapter()
   }
 
-  async fetchData(companySymbol: string, startDate: string, endDate: string): Promise<HistoricalRecord[]> {
+  async fetchData(
+    companySymbol: string,
+    startDate: string,
+    endDate: string,
+  ): Promise<HistoricalData> {
     const url = this.buildUrl(companySymbol, startDate, endDate)
 
     const response = await fetch(url, {
@@ -47,7 +54,7 @@ export class RapidApiHistoricalDataProvider extends HistoricalDataProvider {
         'x-rapidapi-key': this.options.key,
       },
     })
-    const json = await response.json() as RapidApiHistoricalData
+    const json = (await response.json()) as RapidApiHistoricalData
     if (json.chart.error) {
       throw new HistoricalDataProviderError(json.chart.error.description)
     }
@@ -58,9 +65,9 @@ export class RapidApiHistoricalDataProvider extends HistoricalDataProvider {
   private buildRequestPayload(companySymbol: string, startDate: string, endDate: string) {
     // get the very beginning of "start date" day
     // (see https://rapidapi.com/apidojo/api/yh-finance/playground/apiendpoint_8db71d88-e9a5-4b0c-8de9-4400f8559dfd)
-    const startTime = (new Date(startDate).setHours(0, 0, 0) / 1000).toFixed(0)
+    const startTime = (new Date(startDate).setUTCHours(0, 0, 0) / 1000).toFixed(0)
     // get the very end of "end date" day
-    const endTime = (new Date(endDate).setHours(24, 0, 0) / 1000).toFixed(0)
+    const endTime = (new Date(endDate).setUTCHours(23, 59, 59, 999) / 1000).toFixed(0)
 
     return {
       symbol: companySymbol,

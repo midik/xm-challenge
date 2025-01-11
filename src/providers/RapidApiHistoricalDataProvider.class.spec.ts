@@ -37,24 +37,28 @@ describe.only('RapidApiHistoricalDataProvider', () => {
       },
     };
 
-    const expectedNormalizedData = [
+    const expectedNormalizedData = {
+      companyName: 'Some Company',
+      companySymbol: 'SC',
+      records: [
       {
-        "date": new Date('2021-02-01T02:20:00.000Z'),
-        "open": 133.52,
-        "high": 133.61,
-        "low": 133.52,
-        "close": 133.59,
-        "volume": 100
-      },
-      {
-        "date": new Date('2021-02-01T03:20:00.000Z'),
-        "open": 133.59,
-        "high": 133.61,
-        "low": 133.59,
-        "close": 133.61,
-        "volume": 200
-      }
-    ];
+          date: '2021-02-01',
+          open: 133.52,
+          high: 133.61,
+          low: 133.52,
+          close: 133.59,
+          volume: 100
+        },
+        {
+          date: '2021-02-01',
+          open: 133.59,
+          high: 133.61,
+          low: 133.59,
+          close: 133.61,
+          volume: 200
+        },
+      ],
+    }
 
     const normalizeSpy = jest.spyOn(provider.adapter, 'normalize').mockReturnValue(expectedNormalizedData)
 

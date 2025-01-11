@@ -14,5 +14,6 @@ export abstract class HistoricalDataProvider {
     this.options = options
   }
 
-  abstract fetchData(companySymbol: string, startDate: string, endDate: string): Promise<any>
+  abstract fetchData(companySymbol: string, startDate: string, endDate: string)
+    : Promise<ReturnType<HistoricalDataAdapter['normalize']>>
 }

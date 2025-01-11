@@ -1,0 +1,28 @@
+name: Tests
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: read
+      checks: write
+      pull-requests: read
+
+
+    name: Tests
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: build
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.x'
+
+      - run: npm ci
+      - run: npm run test

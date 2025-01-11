@@ -1,5 +1,3 @@
-import type { getHistoricalDataQuery } from '../types.js'
-
 // let's import the symbols statically at this point. This JSON was generated using the following command:
 // ```
 //   curl "https://pkgstore.datahub.io/core/nasdaq-listings/nasdaq-listed_json/data/a5bc7580d6176d60ac0b2142ca8d7df6/nasdaq-listed_json.json" \
@@ -9,6 +7,8 @@ import type { getHistoricalDataQuery } from '../types.js'
 //  but it will cost us an extra trip to the database which makes no sense because these symbols change rarely.
 import validCompanySymbols from './validSymbols.json' with { type: 'json' }
 
+import { GetHistoricalDataQuery } from '../api/index.js'
+
 
 /**
  * Some class to validate the query params
@@ -16,7 +16,7 @@ import validCompanySymbols from './validSymbols.json' with { type: 'json' }
  * @class Validator
  */
 export class Validator {
-  public isValid(query: getHistoricalDataQuery): boolean {
+  public isValid(query: GetHistoricalDataQuery): boolean {
     return (
       this.isEmail(query.email) &&
       this.isDate(query.startDate) &&

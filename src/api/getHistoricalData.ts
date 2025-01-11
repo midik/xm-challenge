@@ -1,7 +1,18 @@
 import { Validator } from '../validators/validator.class.js'
 import { HistoricalDataProvider } from '../providers/HistoricalDataProvider.class.js'
-import type { getHistoricalDataQuery, getHistoricalDataRequest } from '../types.js'
-import * as console from 'node:console'
+import type { PayloadRequest } from 'payload'
+
+
+export type GetHistoricalDataQuery = {
+  companySymbol: string;
+  startDate: string;
+  endDate: string;
+  email: string;
+}
+
+type GetHistoricalDataRequest = PayloadRequest & {
+  query: GetHistoricalDataQuery
+}
 
 
 export class HistoricalDataApi {
@@ -17,8 +28,8 @@ export class HistoricalDataApi {
    * The handler for GET historical data endpoint
    * @param req
    */
-  public async getHistoricalData(req: getHistoricalDataRequest){
-    const query: getHistoricalDataQuery = req.query
+  public async getHistoricalData(req: GetHistoricalDataRequest){
+    const query: GetHistoricalDataQuery = req.query
 
     if (!this.validator.isValid(query)) {
       return Response.json({

@@ -5,24 +5,26 @@ name: Tests
 #    branches:
 #      - main
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      issues: read
-      checks: write
-      pull-requests: read
+## disabled until docker stuff is ready
 
-
-    name: Tests
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: build
-        uses: actions/setup-node@v3
-        with:
-          node-version: '23.x'
-
-      - run: npm ci
-      - run: npm run test
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: read
+#      issues: read
+#      checks: write
+#      pull-requests: read
+#
+#
+#    name: Tests
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - name: build
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: '23.x'
+#
+#      - run: npm ci
+#      - run: npm run test

@@ -1,14 +1,14 @@
-import { Validator } from '../helpers/validator.class.js'
-import { DataProvider } from '../helpers/DataProvider.class.js'
+import { Validator } from '../validators/validator.class.js'
+import { HistoricalDataProvider } from '../providers/HistoricalDataProvider.class.js'
 import type { getHistoricalDataQuery, getHistoricalDataRequest } from '../types.js'
 import * as console from 'node:console'
 
 
 export class HistoricalDataApi {
-  dataProvider: DataProvider
+  dataProvider: HistoricalDataProvider
   validator: Validator
 
-  constructor(dataProvider: DataProvider, validator: Validator) {
+  constructor(dataProvider: HistoricalDataProvider, validator: Validator) {
     this.dataProvider = dataProvider
     this.validator = validator
   }
@@ -26,10 +26,9 @@ export class HistoricalDataApi {
       })
     }
 
-
     const data = await this.dataProvider.fetchData(query.companySymbol, query.startDate, query.endDate)
 
-    //console.log(data)
+    // todo email stuff
 
     return Response.json(data)
   }

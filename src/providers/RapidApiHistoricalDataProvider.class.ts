@@ -1,13 +1,13 @@
 import fetch from 'node-fetch'
-import { DataProvider, DataProviderOptions } from './DataProvider.class.js'
-import { SomeHistoricalDataAdapter } from './SomeHistoricalDataAdapter.class.js'
-import { HistoricalRecord } from './HistoricalDataAdapter.class.js'
+import { HistoricalDataProvider, HistoricalDataProviderOptions } from './HistoricalDataProvider.class.js'
+import { RapidApiHistoricalData, SomeHistoricalDataAdapter } from '../adapters/SomeHistoricalDataAdapter.class.js'
+import type { HistoricalRecord } from '../adapters/HistoricalDataAdapter.class.js'
 
 
-export class RapidApiDataProvider extends DataProvider {
+export class RapidApiDataProvider extends HistoricalDataProvider {
   adapter: SomeHistoricalDataAdapter
 
-  constructor(options: DataProviderOptions) {
+  constructor(options: HistoricalDataProviderOptions) {
     super(options)
     this.adapter = new SomeHistoricalDataAdapter()
   }
@@ -23,10 +23,10 @@ export class RapidApiDataProvider extends DataProvider {
       },
     })
     const json = await response.json()
-    return this.adapter.normalize(json)
+    return this.adapter.normalize(json as RapidApiHistoricalData)
   }
 
-  // todo implement dates
+  // TODO implement dates
   private buildRequestPayload(companySymbol: string, startDate: string, endDate: string) {
     return {
       symbol: companySymbol,

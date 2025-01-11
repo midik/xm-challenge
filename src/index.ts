@@ -1,9 +1,8 @@
 import type { Config } from 'payload'
 import type { HistoricalDataProviderPluginConfig } from './types.js'
 import { HistoricalDataApi } from './api/index.js'
-import { RapidApiDataProvider } from './helpers/RapidApiDataProvider.class.js'
-import { Validator } from './helpers/validator.class.js'
-import { SomeHistoricalDataAdapter } from './helpers/SomeHistoricalDataAdapter.class.js'
+import { RapidApiDataProvider } from './providers/RapidApiHistoricalDataProvider.class.js'
+import { Validator } from './validators/validator.class.js'
 
 
 export const historicalDataProviderPlugin =

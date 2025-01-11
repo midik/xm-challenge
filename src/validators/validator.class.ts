@@ -7,7 +7,7 @@ import type { getHistoricalDataQuery } from '../types.js'
 // ```
 //  Another option here would be to seed the symbols to a collection or fetch them from anywhere else,
 //  but it will cost us an extra trip to the database which makes no sense because these symbols change rarely.
-import validCompanySymbols from '../data/symbols.json' with { type: 'json' }
+import validCompanySymbols from './validSymbols.json' with { type: 'json' }
 
 
 /**

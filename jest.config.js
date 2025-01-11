@@ -41,7 +41,8 @@ const customJestConfig = {
     '^.+\\.(t|j)sx?$': ['@swc/jest'],
   },
   verbose: true,
-  testMatch: ['<rootDir>/**/*int.spec.ts'],
+  testMatch: ['<rootDir>/**/*.spec.ts'],
+  setupFiles: ["<rootDir>/test-setup.js"]
 }
 
 export default customJestConfig

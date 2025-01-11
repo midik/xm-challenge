@@ -20,6 +20,7 @@
     "emitDeclarationOnly": true,
     "target": "ES2022",
     "composite": true,
+    "sourceMap": true,
     "plugins": [
       {
         "name": "next"

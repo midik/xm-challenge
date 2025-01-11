@@ -1,4 +1,3 @@
-import fetch from 'node-fetch'
 import {
   HistoricalDataProvider,
   HistoricalDataProviderError,
@@ -30,7 +29,7 @@ export type RapidApiHistoricalData = {
 }
 
 
-export class RapidApiDataProvider extends HistoricalDataProvider {
+export class RapidApiHistoricalDataProvider extends HistoricalDataProvider {
   adapter: SomeHistoricalDataAdapter
 
   constructor(options: HistoricalDataProviderOptions) {
@@ -52,7 +51,7 @@ export class RapidApiDataProvider extends HistoricalDataProvider {
     if (json.chart.error) {
       throw new HistoricalDataProviderError(json.chart.error.description)
     }
-    return this.adapter.normalize(json as RapidApiHistoricalData)
+    return this.adapter.normalize(json)
   }
 
   // TODO implement dates
@@ -77,7 +76,7 @@ export class RapidApiDataProvider extends HistoricalDataProvider {
     }
   }
 
-  private buildUrl(companySymbol: string, startDate: string, endDate: string) {
+  public buildUrl(companySymbol: string, startDate: string, endDate: string) {
     const payload = this.buildRequestPayload(companySymbol, startDate, endDate)
     const queryParams = new URLSearchParams(Object.entries(payload))
     return `https://yh-finance.p.rapidapi.com/stock/v3/get-chart?${queryParams}`

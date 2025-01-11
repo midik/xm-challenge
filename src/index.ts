@@ -1,6 +1,6 @@
 import type { Config } from 'payload'
 import { HistoricalDataApi } from './api/index.js'
-import { RapidApiDataProvider } from './providers/RapidApiHistoricalDataProvider.class.js'
+import { RapidApiHistoricalDataProvider } from './providers/RapidApiHistoricalDataProvider.class.js'
 import { Validator } from './validators/validator.class.js'
 
 
@@ -20,7 +20,7 @@ export const historicalDataProviderPlugin =
     }
 
     // here we can choose a data provider, e.g. based on some config...
-    const provider = new RapidApiDataProvider({
+    const provider = new RapidApiHistoricalDataProvider({
       key: pluginOptions.rapidAPIKey,
       url: pluginOptions.rapidAPIUrl,
     })

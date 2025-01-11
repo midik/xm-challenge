@@ -2,7 +2,6 @@ import type { Config } from 'payload'
 import { HistoricalDataApi } from './api/index.js'
 import { RapidApiHistoricalDataProvider } from './providers/RapidApiHistoricalDataProvider.class.js'
 import { Validator } from './validators/validator.class.js'
-import * as process from 'node:process'
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 
 

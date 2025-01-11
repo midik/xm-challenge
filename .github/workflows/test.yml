@@ -1,9 +1,9 @@
 name: Tests
 
-on:
-  push:
-    branches:
-      - main
+#on:
+#  push:
+#    branches:
+#      - main
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
       - name: build
         uses: actions/setup-node@v3
         with:
-          node-version: '22.x'
+          node-version: '23.x'
 
       - run: npm ci
       - run: npm run test

@@ -1,8 +1,8 @@
-version: '3'
-
 services:
   payload:
-    image: node:18-alpine
+    build: .
+    depends_on:
+      - postgres
     ports:
       - '3000:3000'
     volumes:
@@ -12,10 +12,8 @@ services:
     #command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
     command: sh -c "npm install && npm dev"
     restart: unless-stopped
-    depends_on:
-      - postgres
     env_file:
-      - .env
+      - dev/.env
 
   postgres:
     restart: unless-stopped

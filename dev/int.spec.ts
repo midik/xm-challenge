@@ -21,7 +21,7 @@ let payload: Payload
 let restClient: NextRESTClient
 let memoryDB: MongoMemoryReplSet | undefined
 
-describe('Plugin tests', () => {
+describe('Integration tests', () => {
   beforeAll(async () => {
     process.env.DISABLE_PAYLOAD_HMR = 'true'
     process.env.PAYLOAD_DROP_DATABASE = 'true'

@@ -54,7 +54,7 @@ export default buildConfig({
     historicalDataProvider({
       // todo generalize this to support other data sources, e.g. inject a provider
       rapidAPIUrl: process.env.RAPIDAPI_URL || '',
-      rapidAPIKey: process.env.RAPID_API_KEY || '',
+      rapidAPIKey: process.env.RAPIDAPI_KEY || '',
       disabled: false
     })
   ],

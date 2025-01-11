@@ -39,7 +39,8 @@
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
     "prepublishOnly": "npm clean && npm run build",
-    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest"
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest",
+    "docs": "tsoa spec-and-routes"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

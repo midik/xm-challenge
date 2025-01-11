@@ -20,11 +20,18 @@ SMTP_PASS=
 ```
 4. Run the application: `npm run dev`
 
-### Usage (Docker)
-1-2. Same as above
+### Usage (Docker) - work in progress
+1-2. Same as local
 3. Run the application: `docker-compose up -d`
 
 ### API
+
+#### OpenAPI documentation - work in progress 
+To generate the OpenAPI documentation, run `npm run docs`.
+This will create `docs/swagger.json` file.
+TODO:
+    - Set all decorators
+    - Serve the OpenAPI documentation using Swagger UI
 
 #### GET /api/historicalData
 Fetch historical data for a given company symbol and date range
@@ -39,6 +46,8 @@ Fetch historical data for a given company symbol and date range
 For company symbols, refer to [this list](https://pkgstore.datahub.io/core/nasdaq-listings/nasdaq-listed_json/data/a5bc7580d6176d60ac0b2142ca8d7df6/nasdaq-listed_json.json).
 Short list of symbols is here: [symbols](/src/validators/validSymbols.json)
 
+Notice: The data is not provided for weekends and holidays, so they are not included in the response.
+
 ##### Example
 Request:
 ```
@@ -52,15 +61,7 @@ Response:
 ```json
 [
     {
-        "date": "2024-10-31T13:30:00.000Z",
-        "open": 229.33999633789062,
-        "high": 229.8300018310547,
-        "low": 225.3699951171875,
-        "close": 225.91000366210938,
-        "volume": 64370100
-    },
-    {
-        "date": "2024-11-01T13:30:00.000Z",
+        "date": "2024-11-01",
         "open": 220.97000122070312,
         "high": 225.35000610351562,
         "low": 220.27000427246094,
@@ -68,7 +69,7 @@ Response:
         "volume": 65276700
     },
     {
-        "date": "2024-11-04T14:30:00.000Z",
+        "date": "2024-11-04",
         "open": 220.99000549316406,
         "high": 222.7899932861328,
         "low": 219.7100067138672,
@@ -80,3 +81,7 @@ Response:
 
 ### Tests
 Run tests: `npm test`
+This will run few unit tests as well as an integration test for the API endpoint.
+TODO:
+- Re-enable github pipeline after finishing docker stuff
+- More coverage

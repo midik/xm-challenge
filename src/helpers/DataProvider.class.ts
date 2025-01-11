@@ -1,15 +1,18 @@
-interface DataProviderOptions {
+import { HistoricalDataAdapter } from './HistoricalDataAdapter.class.js'
+
+export type DataProviderOptions = {
   url: string
   key: string
 }
 
 
-export class DataProvider {
+export abstract class DataProvider {
   protected options: DataProviderOptions
+  protected abstract adapter: HistoricalDataAdapter
 
   constructor(options: DataProviderOptions) {
     this.options = options
   }
 
-  static fetchData(companySymbol: string, startDate: string, endDate: string) {}
+  abstract fetchData(companySymbol: string, startDate: string, endDate: string): Promise<any>
 }

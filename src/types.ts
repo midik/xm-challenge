@@ -13,7 +13,7 @@ export type getHistoricalDataRequest = PayloadRequest & {
   query: getHistoricalDataQuery
 }
 
-export type HistoricalDataProviderConfig = {
+export type HistoricalDataProviderPluginConfig = {
   collections?: Partial<Record<CollectionSlug, true>>
   rapidAPIUrl: string,
   rapidAPIKey: string,

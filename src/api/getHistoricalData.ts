@@ -1,6 +1,7 @@
 import { Validator } from '../helpers/validator.class.js'
 import { DataProvider } from '../helpers/DataProvider.class.js'
 import type { getHistoricalDataQuery, getHistoricalDataRequest } from '../types.js'
+import * as console from 'node:console'
 
 
 export class HistoricalDataApi {
@@ -16,7 +17,7 @@ export class HistoricalDataApi {
    * The handler for GET historical data endpoint
    * @param req
    */
-  public async getHistoricalData (req: getHistoricalDataRequest){
+  public async getHistoricalData(req: getHistoricalDataRequest){
     const query: getHistoricalDataQuery = req.query
 
     if (!this.validator.isValid(query)) {
@@ -26,11 +27,10 @@ export class HistoricalDataApi {
     }
 
 
-    /// todo
-    
+    const data = await this.dataProvider.fetchData(query.companySymbol, query.startDate, query.endDate)
 
-    return Response.json({
-      message: 'Hello from historicalData endpoint!!!'
-    })
+    //console.log(data)
+
+    return Response.json(data)
   }
 }

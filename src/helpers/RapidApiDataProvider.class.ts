@@ -1,18 +1,29 @@
 import fetch from 'node-fetch'
-import { DataProvider } from './DataProvider.class.js'
+import { DataProvider, DataProviderOptions } from './DataProvider.class.js'
+import { SomeHistoricalDataAdapter } from './SomeHistoricalDataAdapter.class.js'
+import { HistoricalRecord } from './HistoricalDataAdapter.class.js'
 
 
 export class RapidApiDataProvider extends DataProvider {
-  async fetchData(companySymbol: string, startDate: string, endDate: string) {
-    const url = this.buildUrl(companySymbol, startDate, endDate);
-    const result = await fetch(url, {
+  adapter: SomeHistoricalDataAdapter
+
+  constructor(options: DataProviderOptions) {
+    super(options)
+    this.adapter = new SomeHistoricalDataAdapter()
+  }
+
+  async fetchData(companySymbol: string, startDate: string, endDate: string): Promise<HistoricalRecord[]> {
+    const url = this.buildUrl(companySymbol, startDate, endDate)
+
+    const response = await fetch(url, {
       method: 'GET',
       headers: {
         'x-rapidapi-host': 'yh-finance.p.rapidapi.com',
         'x-rapidapi-key': this.options.key,
       },
     })
-    return result.json()
+    const json = await response.json()
+    return this.adapter.normalize(json)
   }
 
   // todo implement dates

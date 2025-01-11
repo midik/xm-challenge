@@ -1,22 +1,20 @@
 import type { Config } from 'payload'
-import type { HistoricalDataProviderConfig } from './types.js'
+import type { HistoricalDataProviderPluginConfig } from './types.js'
 import { HistoricalDataApi } from './api/index.js'
 import { RapidApiDataProvider } from './helpers/RapidApiDataProvider.class.js'
 import { Validator } from './helpers/validator.class.js'
+import { SomeHistoricalDataAdapter } from './helpers/SomeHistoricalDataAdapter.class.js'
 
 
-export const historicalDataProvider =
-  (pluginOptions: HistoricalDataProviderConfig) =>
+export const historicalDataProviderPlugin =
+  (pluginOptions: HistoricalDataProviderPluginConfig) =>
   (config: Config): Config => {
-    /**
-     * If the plugin is disabled, we still want to keep added collections/fields so the database schema is consistent which is important for migrations.
-     * If your plugin heavily modifies the database schema, you may want to remove this property.
-     */
+    // exit early if the plugin is disabled
     if (pluginOptions.disabled) {
       return config
     }
 
-    // we can choose provider type here based on some config etc
+    // here we can choose a data provider, e.g. based on some config...
     const provider = new RapidApiDataProvider({
       key: pluginOptions.rapidAPIKey,
       url: pluginOptions.rapidAPIUrl,

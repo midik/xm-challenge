@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url'
 import { devUser } from './helpers/credentials.js'
 import { testEmailAdapter } from './helpers/testEmailAdapter.js'
 import { seed } from './seed.js'
-import { historicalDataProvider } from 'xm-challenge'
+import { historicalDataProviderPlugin } from 'xm-challenge'
 
 
 const filename = fileURLToPath(import.meta.url)
@@ -51,7 +51,7 @@ export default buildConfig({
     await seed(payload)
   },
   plugins: [
-    historicalDataProvider({
+    historicalDataProviderPlugin({
       // todo generalize this to support other data sources, e.g. inject a provider
       rapidAPIUrl: process.env.RAPIDAPI_URL || '',
       rapidAPIKey: process.env.RAPIDAPI_KEY || '',

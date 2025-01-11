@@ -39,11 +39,12 @@ export class HistoricalDataApi {
 
     const data = await this.dataProvider.fetchData(query.companySymbol, query.startDate, query.endDate)
 
-    await req.payload.sendEmail({
-      to: query.email,
-      subject: 'This is a test email',
-      text: Array.from(data).map((record) => JSON.stringify(record)).join('\n'),
-    })
+    // todo
+    // await req.payload.sendEmail({
+    //   to: query.email,
+    //   subject: 'This is a test email',
+    //   text: Array.from(data).map((record) => JSON.stringify(record)).join('\n'),
+    // })
 
     return Response.json(data)
   }

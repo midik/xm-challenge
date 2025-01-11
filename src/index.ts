@@ -44,20 +44,20 @@ export const historicalDataProviderPlugin =
     // ...we can bind other endpoints here in the future
 
     // put this to the envs
-    config.email = nodemailerAdapter({
-      defaultFromAddress: 'info@payloadcms.com',
-      defaultFromName: 'PayloadCMS',
-      transport: {
-        host: 'smtp.ethereal.email',
-        port: 587,
-        secure: true,
-        auth: {
-          user: 'aaron12@ethereal.email',
-          pass: 'X3xYznNqY8gt87Bhb9'
-        },
-        verify: false
-      }
-    })
+    // config.email = nodemailerAdapter({
+    //   defaultFromAddress: 'info@payloadcms.com',
+    //   defaultFromName: 'PayloadCMS',
+    //   transport: {
+    //     host: 'smtp.ethereal.email',
+    //     port: 587,
+    //     secure: true,
+    //     auth: {
+    //       user: 'aaron12@ethereal.email',
+    //       pass: 'X3xYznNqY8gt87Bhb9'
+    //     },
+    //     verify: false
+    //   }
+    // })
 
     return config
   }

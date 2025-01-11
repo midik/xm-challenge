@@ -1,6 +1,7 @@
 import { Validator } from '../validators/validator.class.js'
 import { HistoricalDataProvider } from '../providers/HistoricalDataProvider.class.js'
 import type { PayloadRequest } from 'payload'
+import { CsvAdapter } from '../adapters/CsvAdapter.class.js'
 
 
 export type GetHistoricalDataQuery = {
@@ -32,19 +33,22 @@ export class HistoricalDataApi {
     const query: GetHistoricalDataQuery = req.query
 
     if (!this.validator.isValid(query)) {
-      return Response.json({
-        message: 'Bad request',
-      })
+      return Response.json({ message: 'Bad request' })
     }
 
     const data = await this.dataProvider.fetchData(query.companySymbol, query.startDate, query.endDate)
+    const csvData = CsvAdapter.normalize(data)
 
-    // todo
-    // await req.payload.sendEmail({
-    //   to: query.email,
-    //   subject: 'This is a test email',
-    //   text: Array.from(data).map((record) => JSON.stringify(record)).join('\n'),
-    // })
+    // todo move this out to separate module
+    await req.payload.sendEmail({
+      to: query.email,
+      subject: 'Historical data for ' + query.companySymbol,
+      text: `From ${query.startDate} to ${query.endDate}`,
+      attachments: [{
+        filename: 'report.csv',
+        content: Buffer.from(csvData, 'utf-8')
+      }]
+    })
 
     return Response.json(data)
   }

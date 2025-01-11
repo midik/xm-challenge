@@ -55,6 +55,12 @@ export default buildConfig({
       // todo generalize this to support other data sources, e.g. inject a provider
       rapidAPIUrl: process.env.RAPIDAPI_URL || '',
       rapidAPIKey: process.env.RAPIDAPI_KEY || '',
+      defaultFromAddress: process.env.DEFAULT_FROM_ADDRESS || '',
+      defaultFromName: process.env.DEFAULT_FROM_NAME || '',
+      smtpHost: process.env.SMTP_HOST || '',
+      smtpPort: parseInt(process.env.SMTP_PORT || '587', 10),
+      smtpUser: process.env.SMTP_USER || '',
+      smtpPass: process.env.SMTP_PASS || '',
       disabled: false
     })
   ],

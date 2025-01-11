@@ -2,11 +2,19 @@ import type { Config } from 'payload'
 import { HistoricalDataApi } from './api/index.js'
 import { RapidApiHistoricalDataProvider } from './providers/RapidApiHistoricalDataProvider.class.js'
 import { Validator } from './validators/validator.class.js'
+import * as process from 'node:process'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 
 
 type HistoricalDataProviderPluginConfig = {
   rapidAPIUrl: string,
   rapidAPIKey: string,
+  defaultFromAddress: string,
+  defaultFromName: string,
+  smtpHost: string,
+  smtpPort: number,
+  smtpUser: string,
+  smtpPass: string,
   disabled?: boolean
 }
 
@@ -44,21 +52,19 @@ export const historicalDataProviderPlugin =
     })
     // ...we can bind other endpoints here in the future
 
-    // put this to the envs
-    // config.email = nodemailerAdapter({
-    //   defaultFromAddress: 'info@payloadcms.com',
-    //   defaultFromName: 'PayloadCMS',
-    //   transport: {
-    //     host: 'smtp.ethereal.email',
-    //     port: 587,
-    //     secure: true,
-    //     auth: {
-    //       user: 'aaron12@ethereal.email',
-    //       pass: 'X3xYznNqY8gt87Bhb9'
-    //     },
-    //     verify: false
-    //   }
-    // })
+    config.email = nodemailerAdapter({
+      defaultFromAddress: pluginOptions.defaultFromAddress,
+      defaultFromName: pluginOptions.defaultFromName,
+      transportOptions: {
+        host: pluginOptions.smtpHost,
+        auth: {
+          user: pluginOptions.smtpUser,
+          pass: pluginOptions.smtpPass,
+        },
+        port: pluginOptions.smtpPort ?? 587,
+        secure: false,
+      }
+    })
 
     return config
   }

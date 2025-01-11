@@ -2,6 +2,7 @@ import { Validator } from '../validators/validator.class.js'
 import { HistoricalDataProvider } from '../providers/HistoricalDataProvider.class.js'
 import type { PayloadRequest } from 'payload'
 import { CsvAdapter } from '../adapters/CsvAdapter.class.js'
+import { Controller, Route } from 'tsoa'
 
 
 export type GetHistoricalDataQuery = {
@@ -15,12 +16,13 @@ type GetHistoricalDataRequest = PayloadRequest & {
   query: GetHistoricalDataQuery
 }
 
-
-export class HistoricalDataApi {
+@Route("/historicalData")
+export class HistoricalDataApi extends Controller {
   dataProvider: HistoricalDataProvider
   validator: Validator
 
   constructor(dataProvider: HistoricalDataProvider, validator: Validator) {
+    super()
     this.dataProvider = dataProvider
     this.validator = validator
   }

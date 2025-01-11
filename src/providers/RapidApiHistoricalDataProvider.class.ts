@@ -28,15 +28,23 @@ export class RapidApiDataProvider extends HistoricalDataProvider {
 
   // TODO implement dates
   private buildRequestPayload(companySymbol: string, startDate: string, endDate: string) {
+    // get the very beginning of "start date" day
+    // (see https://rapidapi.com/apidojo/api/yh-finance/playground/apiendpoint_8db71d88-e9a5-4b0c-8de9-4400f8559dfd)
+    const startTime = (new Date(startDate).setHours(0, 0, 0) / 1000).toFixed(0)
+    // get the very end of "end date" day
+    const endTime = (new Date(endDate).setHours(24, 0, 0) / 1000).toFixed(0)
+
     return {
       symbol: companySymbol,
-      interval: '1mo',
-      range: '5y',
+      interval: '1d',
+      // range: '5y', // let's use period1 and period2 instead
       region: 'US',
       includePrePost: 'false',
       useYfid: 'true',
       includeAdjustedClose: 'true',
       events: 'capitalGain%2Cdiv%2Csplit',
+      period1: startTime,
+      period2: endTime,
     }
   }
 
